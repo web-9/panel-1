@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Ceo</title>
+  <!-- ========================================================
+    Boxiocns CDN Link -->
+  <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: #212329;
+    }
+
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 260px;
+      background: linear-gradient(45deg, #000, #1f0413, #1f0413);
+      z-index: 100;
+      transition: all 0.5s ease;
+      box-shadow: #00000050 5px 0 5px;
+    }
+
+    .sidebar.close {
+      width: 78px;
+    }
+
+    .sidebar .logo-details {
+      height: 60px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+    }
+
+    .sidebar .logo-details i {
+      font-size: 30px;
+      color: #f00;
+      height: 50px;
+      min-width: 78px;
+      text-align: center;
+      line-height: 50px;
+    }
+
+    .sidebar .logo-details .logo_name {
+      font-size: 22px;
+      color: #ff9e00;
+      font-weight: 600;
+      transition: 0.3s ease;
+      transition-delay: 0.1s;
+    }
+
+    .sidebar.close .logo-details .logo_name {
+      transition-delay: 0s;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .sidebar .nav-links {
+      height: 100%;
+      padding: 30px 0 150px 0;
+      overflow: auto;
+    }
+
+    .sidebar.close .nav-links {
+      overflow: visible;
+    }
+
+    .sidebar .nav-links::-webkit-scrollbar {
+      display: none;
+    }
+
+    .sidebar .nav-links li {
+      position: relative;
+      list-style: none;
+      transition: all 0.4s ease;
+    }
+
+    .sidebar .nav-links li:hover {
+      background: #1d1e27;
+    }
+
+    .sidebar .nav-links li .iocn-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .sidebar.close .nav-links li .iocn-link {
+      display: block
+    }
+
+    .sidebar .nav-links li i {
+      display: grid;
+      place-items: center;
+      height: 80px;
+      min-width: 78px;
+      text-align: center;
+      line-height: 50px;
+      color: #fa1e4e;
+      font-size: 20px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .sidebar .nav-links li.showMenu i.arrow {
+      transform: rotate(-180deg);
+    }
+
+    .sidebar.close .nav-links i.arrow {
+      display: none;
+    }
+
+    .sidebar .nav-links li a {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+    }
+
+    .sidebar .nav-links li a .link_name {
+      font-size: 18px;
+      font-weight: 400;
+      color: #fff;
+      transition: all 0.4s ease;
+    }
+
+    .sidebar.close .nav-links li a .link_name {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .sidebar .nav-links li .sub-menu {
+      padding: 6px 6px 14px 80px;
+      margin-top: -10px;
+      background: #1d1e2710;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: #00000050 3px 3px 6px;
+      display: none;
+    }
+
+    .sidebar .nav-links li.showMenu .sub-menu {
+      display: block;
+    }
+
+    .sidebar .nav-links li .sub-menu a {
+      color: #fff;
+      font-size: 15px;
+      padding: 5px 0;
+      white-space: nowrap;
+      opacity: 0.6;
+      transition: all 0.3s ease;
+    }
+
+    .sidebar .nav-links li .sub-menu a:hover {
+      opacity: 1;
+    }
+
+    .sidebar.close .nav-links li .sub-menu {
+      position: absolute;
+      left: 100%;
+      top: -10px;
+      margin-top: 0;
+      padding: 10px 20px;
+      border-radius: 0 6px 6px 0;
+      opacity: 0;
+      display: block;
+      pointer-events: none;
+      transition: 0s;
+    }
+
+    .sidebar.close .nav-links li:hover .sub-menu {
+      top: 0;
+      opacity: 1;
+      pointer-events: auto;
+      transition: all 0.3s ease;
+    }
+
+    .sidebar .nav-links li .sub-menu .link_name {
+      display: none;
+    }
+
+    .sidebar.close .nav-links li .sub-menu .link_name {
+      font-size: 18px;
+      opacity: 1;
+      display: block;
+    }
+
+    .sidebar .nav-links li .sub-menu._blank {
+      opacity: 1;
+      pointer-events: auto;
+      padding: 3px 20px 6px 16px;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .sidebar .nav-links li:hover .sub-menu._blank {
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .sidebar .profile-details {
+      position: fixed;
+      bottom: 0;
+      width: 260px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      /* background: #1d1e27; */
+      padding: 12px 0;
+      transition: all 0.5s ease;
+    }
+
+    .sidebar.close .profile-details {
+      background: none;
+    }
+
+    .sidebar.close .profile-details {
+      width: 78px;
+    }
+
+    .sidebar .profile-details .profile-content {
+      display: flex;
+      align-items: center;
+    }
+
+    .sidebar .profile-details img {
+      height: 52px;
+      width: 52px;
+      object-fit: cover;
+      border-radius: 16px;
+      margin: 0 14px 0 12px;
+      background: #1d1e27;
+      transition: all 0.5s ease;
+    }
+
+    .sidebar.close .profile-details img {
+      padding: 10px;
+    }
+
+    .sidebar .profile-details .profile_name,
+    .sidebar .profile-details .job {
+      color: #fff;
+      font-size: 18px;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .sidebar.close .profile-details i,
+    .sidebar.close .profile-details .profile_name,
+    .sidebar.close .profile-details .job {
+      display: none;
+    }
+
+    .sidebar .profile-details .job {
+      font-size: 12px;
+    }
+
+    .home-section {
+      position: relative;
+      background: #E4E9F7;
+      height: 100vh;
+      left: 260px;
+      width: calc(100% - 260px);
+      transition: all 0.5s ease;
+    }
+
+    .sidebar.close~.home-section {
+      left: 78px;
+      width: calc(100% - 78px);
+    }
+
+    .home-section .home-content {
+      height: 60px;
+      display: flex;
+      align-items: center;
+    }
+
+    .home-section .home-content .bx-game,
+    .home-section .home-content .text {
+      color: #11101d;
+      font-size: 35px;
+    }
+
+    .home-section .home-content .bx-game {
+      margin: 0 15px;
+      cursor: pointer;
+    }
+
+    .home-section .home-content .text {
+      font-size: 26px;
+      font-weight: 600;
+    }
+
+    @media (max-width: 400px) {
+      .sidebar.close .nav-links li .sub-menu {
+        display: none;
+      }
+
+      .sidebar {
+        width: 78px;
+      }
+
+      .sidebar.close {
+        width: 0;
+      }
+
+      .home-section {
+        left: 78px;
+        width: calc(100% - 78px);
+        z-index: 100;
+      }
+
+      .sidebar.close~.home-section {
+        width: 100%;
+        left: 0;
+      }
+    }
+
+    tt {
+      color: #ff9e00;
+      font-weight: bold;
+    }
+
+    opcao {
+      color: #ffffff90;
+      cursor: pointer;
+      display: flex;
+      width: max-content;
+    }
+
+    opcao:hover {
+      color: #ffffff
+    }
+    
+    appbar {
+    	background-image: linear-gradient(0deg, rgb(174, 21, 57) 0%, rgb(144, 64, 11) 100%);
+    	height: 120px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="sidebar close">
+    <div class="logo-details">
+      <i class='bx bx-game bx-md'></i>
+      <opcao class="logo_name" onclick="window.open('https://trello.com/b/AjN1KzGD/game', '_blank');">Sammarco</opcao>
+    </div>
+    <ul class="nav-links">
+
+<!-- ===================================================
+[ EMAIL ] -->
+      <li>
+        <div class="iocn-link">
+          <a>
+            <i class='bx bx-envelope bx-sm'></i>
+            <!-- <i class='bx bxl-facebook-circle bx-burst'></i> // animado -->
+            <span class="link_name">Email</span>
+          </a>
+          <i class='bx bxs-chevron-down arrow'></i>
+        </div>
+        <ul class="sub-menu">
+          <li><tt class="link_name">Email</tt></li>
+          <li>
+            <opcao onclick="window.open('https://outlook.live.com/mail/0/', '_blank');">Hotmail</opcao>
+          </li>
+          <li>
+            <opcao
+              onclick="window.open('https://accounts.google.com/signin/v2/identifier?continue=https%3A%2F%2Fmail.google.com%2Fmail%2F&service=mail&sacu=1&rip=1&flowName=GlifWebSignIn&flowEntry=ServiceLogin', '_blank');">
+              Gmail</opcao>
+          </li>
+          <li>
+          	<opcao onclick="window.open('https://cliente.hostgator.com.br/emails-list', '_blank');">Hostgator</opcao>
+          </li>
+        </ul>
+      </li>
+
+<!-- ===================================================
+[ FACEBOOK ] -->
+      <li>
+        <div class="iocn-link">
+          <a>
+            <i class='bx bxl-facebook-circle bx-sm'></i>
+            <span class="link_name">Facebook</span>
+          </a>
+          <i class='bx bxs-chevron-down arrow'></i>
+        </div>
+        <ul class="sub-menu">
+          <li><tt class="link_name">FaceBook</tt></li>
+          <li>
+            <opcao onclick="window.open('https://www.facebook.com/', '_blank');">Facebook</opcao>
+          </li>
+          <li>
+            <opcao onclick="window.open('https://facebook.com/id', '_blank');">Confirmar doc</opcao>
+          </li>
+          <li>
+            <opcao onclick="window.open('https://www.facebook.com/adsmanager', '_blank');">Conta de anúncios pessoal
+            </opcao>
+          </li>
+          <li>
+            <opcao
+              onclick="window.open('https://business.facebook.com/adsmanager/?business_id=371571141496259&nav_source=business_manager', '_blank');">
+              BM - Gerenciador de anúncios</opcao>
+          </li>
+          <li>
+            <opcao onclick="window.open('https://business.facebook.com/settings', '_blank');">Configurações da BM
+            </opcao>
+          </li>
+          <li>
+            <opcao
+              onclick="window.open('https://www.facebook.com/creatorstudio/?reference=bizweb_more_tools_link&selected_single_page_id=105799065425661&tab=home', '_blank');">
+              Estúdio de criação</opcao>
+          </li>
+          <li>
+            <opcao onclick="window.open('https://business.facebook.com/create', '_blank');">Criar BM</opcao>
+          </li>
+          <li>
+            <opcao onclick="window.open('https://developers.facebook.com/tools/debug', '_blank');">fb developers</opcao>
+          </li>
+          <li>
+            <opcao onclick="window.open('https://pixelscan.net/', '_blank');">Fingerprint</opcao>
+          </li>
+          <li>
+            <opcao onclick="window.open('https://codepen.io/prembm/full/YzPMjaj', '_blank');">FB Acc Status</opcao>
+          </li>
+        </ul>
+      </li>
+
+<!-- =========================================
+[ Google ] -->
+      <li>
+        <div class="iocn-link">
+          <a>
+            <i class='bx bxl-google bx-sm'></i>
+            <span class="link_name">Google</span>
+          </a>
+          <i class='bx bxs-chevron-down arrow'></i>
+        </div>
+        <ul class="sub-menu">
+          <li><tt class="link_name">Google</tt></li>
+          <li>
+            <opcao onclick="window.open('https://contacts.google.com/', '_blank');">Contatos</opcao>
+          </li>
+          <li>
+            <opcao onclick="window.open('https://www.youtube.com/', '_blank');">
+              Youtube</opcao>
+          </li>
+          <li>
+            <opcao
+              onclick="window.open('https://accounts.google.com/signin/v2/identifier?service=wise&passive=true&continue=http%3A%2F%2Fdrive.google.com%2F%3Futm_source%3Den&utm_medium=button&utm_campaign=web&utm_content=gotodrive&usp=gtd&ltmpl=drive&flowName=GlifWebSignIn&flowEntry=ServiceLogin', '_blank');">
+              GDrive</opcao>
+          </li>
+          <!--<li>
+            <opcao onclick="window.open('https://chrome.google.com/webstore/category/extensions', '_blank');">
+              Chrome Web Store</opcao>
+          </li>-->
+        </ul>
+      </li>
+<!-- ===========================================
+[ CHROME STORE ] -->
+			<li>
+        <div class="iocn-link">
+          <a>
+            <i class='bx bxl-chrome bx-sm'></i>
+            <span class="link_name" onclick="window.open('https://chrome.google.com/webstore/category/extensions', '_blank');">Chrome Store</span>
+          </a>
+          <i class='bx bxs-chevron-down arrow'></i>
+        </div>
+        <ul class="sub-menu">
+          <li><tt class="link_name" onclick="window.open('https://chrome.google.com/webstore/category/extensions', '_blank');">Chrome Store</tt></li>
+          <li>
+            <opcao onclick="window.open('https://chrome.google.com/webstore/detail/cookie-editor/hlkenndednhfkekhgcdicdfddnkalmdm', '_blank');">Cookie Editor</opcao>
+          </li>
+          <li>
+          	<opcao onclick="window.opern('https://chrome.google.com/webstore/detail/facebook-pixel-helper/fdgfkebogiimcoedlicjlajpkdmockpc', '_blank');">FB Pixel Helper</opcao>
+          </li>
+        </ul>
+			</li>
+<!-- ===========================================
+[ EDIÇÃO ] -->
+      <li>
+        <div class="iocn-link">
+          <a>
+            <i class='bx bxl-adobe bx-sm'></i>
+            <span class="link_name">Edição</span>
+          </a>
+          <i class='bx bxs-chevron-down arrow'></i>
+        </div>
+        <ul class="sub-menu">
+          <li><tt class="link_name">Edição</tt></li>
+          <li>
+            <opcao onclick="window.open('https://www.canva.com', '_blank');">Canva</opcao>
+          </li>
+          <li>
+            <opcao onclick="window.open('https://www.freephotosoft.com/?ref=extension_ope_install', '_blank');">
+              Photoshop on-line</opcao>
+          </li>
+          <!-- <li><opcao onclick="window.open('https://www.photoshoponline.net.br', '_blank');">Photoshop on-line</opcao></li> -->
+          <li>
+            <opcao onclick="window.open('https://www.remove.bg/upload', '_blank');">remove.bg</opcao>
+          </li>
+          <opcao class="logo_name" onclick="window.open('http://diybookcovers.com/3Dmockups/', '_blank');">3d mockups
+          </opcao>
+          <li>
+            <opcao onclick="window.open('https://app.wistia.com/auth/wistia_auth_sign_in_pre_auth', '_blank');">Wistia
+            </opcao>
+          </li>
+        </ul>
+      </li>
+
+<!-- ================================================
+[ CODE ] -->
+      <li>
+        <div class="iocn-link">
+          <a>
+            <i class='bx bx-code-alt bx-sm'></i>
+            <span class="link_name">Code</span>
+          </a>
+          <i class='bx bxs-chevron-down arrow'></i>
+        </div>
+        <ul class="sub-menu">
+          <li><tt class="link_name">Code</tt></li>
+        </ul>
+      </li>
+
+
+<!-- =============================================
+[ EXPLORE ] -->
+      <li>
+        <div class="iocn-link">
+          <a>
+            <i class='bx bx-cog bx-sm'></i>
+            <span class="link_name">empty</span>
+          </a>
+          <i class='bx bxs-chevron-down arrow'></i>
+        </div>
+        <ul class="sub-menu">
+          <li><tt class="link_name">empty</tt></li>
+          <opcao class="logo_name"
+            onclick="window.open('https://bride.ru/ph/htcgi/ladies/931/931136P1.html', '_blank');">Bride</opcao>
+        </ul>
+      </li>
+
+
+
+<!-- ==========================================
+[ HISTORY ] -->
+      <li>
+        <div class="iocn-link">
+          <a>
+            <i class='bx bx-cog bx-sm'></i>
+            <span class="link_name">empty</span>
+          </a>
+          <i class='bx bxs-chevron-down arrow'></i>
+        </div>
+        <ul class="sub-menu">
+          <li><tt class="link_name">empty</tt></li>
+        </ul>
+      </li>
+
+
+<!-- ========================================
+[ SETTINGS ] -->
+      <li>
+        <div class="iocn-link">
+          <a>
+            <i class='bx bx-cog bx-sm'></i>
+            <span class="link_name">Configurações</span>
+          </a>
+          <i class='bx bxs-chevron-down arrow'></i>
+        </div>
+        <ul class="sub-menu">
+          <li><tt class="link_name">Settings</tt></li>
+        </ul>
+      </li>
+
+
+
+
+<!-- ======================================
+[ DETAILS ] -->
+      <li>
+        <div class="profile-details">
+          <div class="profile-content">
+          </div>
+          <div class="name-job">
+            <div class="profile_name">Ceo Sammarco</div>
+            <div class="job"></div>
+          </div>
+          <i class='bx bx-log-out'></i>
+        </div>
+      </li>
+
+
+
+
+    </ul>
+  </div>
+  </div>
+  </section> -->
+  
+  
+
+<!-- ============================================ 
+[ SHOW IP ]-->
+	<center> 
+		<h3>Public IP Address of user is:</h3> 
+
+		<h2 id="userip"></h2> 
+
+	</center>
+
+
+
+
+  <script>
+    let arrow = document.querySelectorAll(".arrow");
+    for (var i = 0; i < arrow.length; i++) {
+      arrow[i].addEventListener("click", (e) => {
+        let arrowParent = e.target.parentElement.parentElement; //selecting main parent of arrow
+        arrowParent.classList.toggle("showMenu");
+      });
+    }
+    let sidebar = document.querySelector(".sidebar");
+    let sidebarBtn = document.querySelector(".bx-game");
+    console.log(sidebarBtn);
+    sidebarBtn.addEventListener("click", () => {
+      sidebar.classList.toggle("close");
+    });
+  </script>
+  
+  
+<!-- ====================================
+[ SHOW IP CODE ]-->
+	<script src= 
+"https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"> 
+	</script> 
+
+	<script> 
+		/* Add "https://api.ipify.org?format=json" This method uses ipify.org api to get the clients IP Address. 
+		This method is completely free and no limitations of use. */ 
+
+		$.getJSON("https://api.ipify.org?format=json", 
+										function(data) { 
+
+			// userip element is where the IP will be displayed
+			$("#userip").html(data.ip); 
+		}) 
+	</script> 
+  
+</body>
+
+</html>
+
+<!-- 
+15161c
+181a21
+1d1e27
+1e1f29
+282a36
+
+725e97
+-->
